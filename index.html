@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>ElasticSearch isAlive</title>
+		<script src="lib//jquery.js"></script>
+	</head>
+	<body>
+		<script>
+		$(document).ready(function() {
+			$.ajax({
+			  url: '/_cluster/health/',
+			  data: {},
+			  success: function(res) {
+				  var status = "";
+				  if (res && res.status) {
+					  switch(res.status) {
+						  case 'green':
+						  case 'yellow':
+						  	status = 'Is up and Running!';
+						  case 'red':
+						  default:
+							  status = 'is gone!';
+							  break;
+					  }
+				  }
+				  document.write(status);
+			  },
+			  dataType: 'json'
+			});
+		});
+		</script>
+	</body>
+</html>
