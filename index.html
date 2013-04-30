@@ -8,22 +8,19 @@
 	<body>
 		<script>
 		$(document).ready(function() {
+			var host = window.location.hostname;
 			$.ajax({
-			  url: '/_cluster/health/',
+			  url: '/_nodes/' + host + '/',
 			  data: {},
 			  success: function(res) {
-				  var status = "";
-				  if (res && res.status) {
-					  switch(res.status) {
-						  case 'green':
-						  case 'yellow':
-						  	status = 'Is up and Running!';
-							  break;
-						  case 'red':
-						  default:
-							  status = 'is gone!';
-							  break;
+				  var status = "is gone!", count = 0;
+				  if (res && res.nodes) {
+					  for (el in res.nodes) {
+						  count++;
 					  }
+				  }
+				  if (count > 0) {
+						status = 'Is up and Running!';
 				  }
 				  document.write(status);
 			  },
